@@ -9,19 +9,30 @@ parser  = require '../lib/parser'
 emitter = require '../lib/emitter'
 wrapper = require '../lib/wrapper'
 
-replEmitter = emitter.init()
 ctx = vm.createContext()
 ctx['console'] = console;
 
 compile = (source)->
-  #
+  code = fs.readFileSync(source)
+  ast  = parser.parse(code)
+
+  namespace = ast.filter((s)-> s[0] is 'ns')[0]
+  throw "Missing namespace declaration" unless namespace
+
+  cleanAst = ast.filter (s)-> s[0] isnt 'ns'
+  gen = emitter.init(namespace[1])
+  js  = gen.emit(cleanAst)
+
+  console.log js
 
 repl = ->
+  replEmitter = emitter.init()
+
   rl = readline.createInterface
     input: process.stdin
     output: process.stdout
 
-  rl.setPrompt('Minscript > ')
+  rl.setPrompt('MinScript > ')
   rl.prompt()
 
   rl.on 'line', (line)->
