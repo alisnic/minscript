@@ -24,4 +24,6 @@ repl = ->
     console.log "=>", vm.runInContext(js, ctx)
     repl()
 
-console.log process.argv
+switch process.argv[2]
+  when 'repl'
+    repl()
