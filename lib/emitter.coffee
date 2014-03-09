@@ -29,16 +29,23 @@ class MinContext
         @generate(args).join(name)
       when '='
         @generate(args).join("===")
+      when 'fn'
+        statements = rest(args)
+        body = @generate(statements.slice(0, statements.length-2)).join(";")
+        body = "#{body};" unless body.length is 0
+        rtn  = @grow(last(statements))
+
+        "function (#{args[0].join(',')}) { #{body}return #{rtn}; }"
       when 'let'
         slices = eachSlice args, 2, (slice)=>
           "#{@grow(slice[0])} = #{@grow(slice[1])}"
 
         "var #{slices.join(',')}"
+      when 'letfn'
+        @grow ['let', args[0], @grow(['fn'].concat(rest(args)))]
       when 'def'
-        slices = eachSlice args, 2, (slice)=>
-          "#{@exportTarget}.#{@grow(slice[0])} = #{@grow(slice[1])}"
-
-        slices.join(";\n")
+        letjs = @grow(['let'].concat(args))
+        "#{letjs};\n#{@exportTarget}.#{args[0]} = #{args[0]}"
       when 'defn'
         @grow ['def', args[0], @grow(['fn'].concat(rest(args)))]
       when 'if'
@@ -76,15 +83,6 @@ class MinContext
       when 'loop'
         bindings = @grow ['let'].concat(args[0])
         "#{bindings}; while (true) { #{@generate(rest(args)).join(';')} break; }"
-      when 'fn'
-        statements = rest(args)
-        body = @generate(statements.slice(0, statements.length-2)).join(";")
-        body = "#{body};" unless body.length is 0
-        rtn  = @grow(last(statements))
-
-        "function (#{args[0].join(',')}) { #{body}return #{rtn}; }"
-      when 'letfn'
-        @grow ['let', args[0], @grow(['fn'].concat(rest(args)))]
       else
         "#{name}(#{@generate(args).join(',')});"
 
