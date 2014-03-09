@@ -1,8 +1,8 @@
 #!/usr/bin/env coffee
 
-vm      = require 'vm'
-fs      = require 'fs'
-util    = require 'util'
+vm       = require 'vm'
+fs       = require 'fs'
+util     = require 'util'
 readline = require 'readline'
 
 parser  = require '../lib/parser'
@@ -26,7 +26,6 @@ compile = (source)->
   name = source.split('.')[0..-2].join(".")
   fs.writeFileSync("#{name}.js", js)
 
-  console.log js
 
 repl = ->
   replEmitter = emitter.init()
@@ -38,13 +37,24 @@ repl = ->
   rl.setPrompt('MinScript > ')
   rl.prompt()
 
+  buffer = ''
+
   rl.on 'line', (line)->
-    ast = parser.parse(line)
-    console.log ast
-    js = replEmitter.emit(ast).join(";")
-    console.log js
-    console.log "=>", vm.runInContext(js, ctx)
-    rl.prompt()
+    buffer += "\n#{line}"
+
+    open_count  = (buffer.match(/\(/g) or []).length
+    close_count = (buffer.match(/\)/g) or []).length
+
+    if open_count is close_count
+      ast = parser.parse(buffer)
+      console.log ast
+      js = replEmitter.emit(ast)
+      console.log js
+      console.log "=>", vm.runInContext(js, ctx)
+      buffer = ''
+      rl.prompt()
+    else
+      rl.prompt()
 
 switch process.argv[2]
   when 'repl'
