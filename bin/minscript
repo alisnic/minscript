@@ -27,3 +27,5 @@ repl = ->
 switch process.argv[2]
   when 'repl'
     repl()
+  else
+    repl()
