@@ -1,0 +1,6 @@
+{
+  "name": "MinScript",
+  "description": "A minimal lisp-like language that compiles to js",
+  "author": "Andrei Lisnic <andrei.lisnic@gmail.com>",
+  "dependencies": {}
+}
