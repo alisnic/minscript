@@ -39,6 +39,8 @@ class MinContext
           "#{@exportTarget}.#{@grow(slice[0])} = #{@grow(slice[1])}"
 
         slices.join(";\n")
+      when 'defn'
+        @grow ['def', args[0], @grow(['fn'].concat(rest(args)))]
       when 'if'
         cond      = @grow(args[0])
         body      = @grow(args[1])
