@@ -1,11 +1,14 @@
+#!/usr/bin/env coffee
+
 vm      = require 'vm'
 fs      = require 'fs'
 util    = require 'util'
 prompt  = require 'prompt'
 
-parser  = require './parser'
-emitter = require './emitter'
+parser  = require '../parser'
+emitter = require '../emitter'
 
+replEmitter = emitter.init()
 ctx = vm.createContext()
 ctx['console'] = console;
 
@@ -16,7 +19,7 @@ repl = ->
   prompt.get ['repl'], (err, result)->
     ast = parser.parse(result.repl)
     console.log ast
-    js = emitter.emit(ast).join(";")
+    js = replEmitter.emit(ast).join(";")
     console.log js
     console.log "=>", vm.runInContext(js, ctx)
     repl()
