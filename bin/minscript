@@ -3,7 +3,7 @@
 vm      = require 'vm'
 fs      = require 'fs'
 util    = require 'util'
-prompt  = require 'prompt'
+readline = require 'readline'
 
 parser  = require '../lib/parser'
 emitter = require '../lib/emitter'
@@ -13,20 +13,29 @@ replEmitter = emitter.init()
 ctx = vm.createContext()
 ctx['console'] = console;
 
-compile = ->
+compile = (source)->
   #
 
 repl = ->
-  prompt.get ['repl'], (err, result)->
-    ast = parser.parse(result.repl)
+  rl = readline.createInterface
+    input: process.stdin
+    output: process.stdout
+
+  rl.setPrompt('Minscript > ')
+  rl.prompt()
+
+  rl.on 'line', (line)->
+    ast = parser.parse(line)
     console.log ast
     js = replEmitter.emit(ast).join(";")
     console.log js
     console.log "=>", vm.runInContext(js, ctx)
-    repl()
+    rl.prompt()
 
 switch process.argv[2]
   when 'repl'
     repl()
+  when 'compile'
+    compile(argv[3])
   else
     repl()
