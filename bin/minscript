@@ -23,6 +23,9 @@ compile = (source)->
   gen = emitter.init("exports")
   js  = wrapper.wrap namespace[1], gen.emit(cleanAst)
 
+  name = source.split('.')[0..-2].join(".")
+  fs.writeFileSync("#{name}.js", js)
+
   console.log js
 
 repl = ->
