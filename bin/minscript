@@ -13,15 +13,15 @@ ctx = vm.createContext()
 ctx['console'] = console;
 
 compile = (source)->
-  code = fs.readFileSync(source)
+  code = fs.readFileSync(source).toString()
   ast  = parser.parse(code)
 
   namespace = ast.filter((s)-> s[0] is 'ns')[0]
   throw "Missing namespace declaration" unless namespace
 
   cleanAst = ast.filter (s)-> s[0] isnt 'ns'
-  gen = emitter.init(namespace[1])
-  js  = gen.emit(cleanAst)
+  gen = emitter.init("exports")
+  js  = wrapper.wrap namespace[1], gen.emit(cleanAst)
 
   console.log js
 
@@ -47,6 +47,6 @@ switch process.argv[2]
   when 'repl'
     repl()
   when 'compile'
-    compile(argv[3])
+    compile(process.argv[3])
   else
     repl()

@@ -11,7 +11,7 @@ group = (code)-> "(#{code})"
 class MinContext
   constructor: (@exportTarget)->
 
-  emit: (ast)-> @generate(ast)
+  emit: (ast)-> @generate(ast).join(";\n")
 
   generate: (statements)->
     map statements, (s)=> @grow(s)
