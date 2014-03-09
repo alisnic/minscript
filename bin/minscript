@@ -5,9 +5,9 @@ fs      = require 'fs'
 util    = require 'util'
 prompt  = require 'prompt'
 
-parser  = require '../parser'
-emitter = require '../emitter'
-wrapper = require '../wrapper'
+parser  = require '../lib/parser'
+emitter = require '../lib/emitter'
+wrapper = require '../lib/wrapper'
 
 replEmitter = emitter.init()
 ctx = vm.createContext()
