@@ -16,6 +16,8 @@
 ":"\w+              { return 'KEYWORD'; }
 "%"\d+              { return 'ARG' }
 
+"#"                 { return 'QUICKFN' }
+
 nil  { return 'NIL'; }
 true  { return 'TRUE'; }
 false  { return 'FALSE'; }
@@ -45,6 +47,8 @@ sexp
     { $$ = $atom; }
   | list
     { $$ = $list; }
+  | anonfn
+    { $$ = $anonfn; }
   ;
 
 pairs
@@ -52,6 +56,13 @@ pairs
     { $$ = [$pair]; }
   | pair pairs
     { $$ = [$pair].concat($pairs); }
+  ;
+
+anonfn
+  : 'QUICKFN' '(' ')'
+    { $$ = [] }
+  | 'QUICKFN' '(' items ')'
+    { $$ = ['fn', []].concat([$items]) }
   ;
 
 pair
@@ -65,7 +76,6 @@ list
   | '(' items ')'
     { $$ = $items; }
   ;
-
 
 items
   : sexp

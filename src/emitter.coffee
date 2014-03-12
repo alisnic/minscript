@@ -24,6 +24,8 @@ class MinContext
     name = statement[0]
     args = rest(statement)
 
+    console.log 'args', args
+
     switch name
       when '+', '-', '*', '/'
         @generate(args).join(name)
@@ -35,14 +37,14 @@ class MinContext
         body = "#{body};" unless body.length is 0
         rtn  = @grow(last(statements))
 
-        "function (#{args[1].join(',')}) { #{body}return #{rtn}; }"
+        "function (#{args[0].join(',')}) { #{body}return #{rtn}; }"
       when 'let'
         slices = eachSlice args, 2, (slice)=>
           "#{@grow(slice[0])} = #{@grow(slice[1])}"
 
         "var #{slices.join(',')}"
       when 'letfn'
-        @grow ['let', args[0], @grow(['fn'].concat(args))]
+        @grow ['let', args[0], @grow(['fn'].concat(rest(args)))]
       when 'def'
         letjs = @grow(['let'].concat(args))
         "#{letjs};\n#{@exportTarget}.#{args[0]} = #{args[0]}"
