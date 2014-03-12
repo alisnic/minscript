@@ -48,6 +48,8 @@ class MinContext
         "#{letjs};\n#{@exportTarget}.#{args[0]} = #{args[0]}"
       when 'defn'
         @grow ['def', args[0], @grow(['fn'].concat(rest(args)))]
+      when 'str'
+        @generate(args).map((js)-> "String(#{js})").join("+")
       when 'if'
         cond      = @grow(args[0])
         body      = @grow(args[1])
