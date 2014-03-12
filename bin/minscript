@@ -6,9 +6,9 @@ readline = require 'readline'
 path     = require 'path'
 Module   = require 'module'
 
-parser  = require '../lib/parser'
-emitter = require '../lib/emitter'
-wrapper = require '../lib/wrapper'
+parser  = require '../src/parser'
+emitter = require '../src/emitter'
+wrapper = require '../src/wrapper'
 ctx     = vm.createContext()
 
 last = (ary)-> ary[ary.length-1]
@@ -34,20 +34,18 @@ compile = (source)->
 
 run = (ms)->
   js = translate(ms)
-  console.log js
 
   mainModule = require.main
   mainModule.filename = process.argv[1] = '.'
   mainModule.moduleCache and= {}
   dir = fs.realpathSync '.'
-
   mainModule.paths = require('module')._nodeModulePaths dir
+
   mainModule._compile js, mainModule.filename
 
 requireMS = (mod, source)->
   raw = fs.readFileSync source, 'utf8'
-  js  = _compile(raw)
-  mod._compile js, source
+  mod._compile _compile(raw), source
 
 if require.extensions
   require.extensions[".ms"] = requireMS
