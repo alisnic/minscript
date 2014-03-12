@@ -13,7 +13,8 @@
 
 "-"?[0-9]+"."[0-9]+ { return 'FLOAT'; }
 "-"?[0-9]+          { return 'INT'; }
-":"\w+    { return 'KEYWORD'; }
+":"\w+              { return 'KEYWORD'; }
+"%"\d+              { return 'ARG' }
 
 nil  { return 'NIL'; }
 true  { return 'TRUE'; }
@@ -93,6 +94,8 @@ atom
     { $$ = {value: $boolean}; }
   | SYMBOL
     { $$ = $SYMBOL; }
+  | ARG
+    { $$ = {value: ('arguments[' + yytext.replace(/^\%/,'') + ']')} }
   | KEYWORD
     { $$ = {value: ('"' + yytext.replace(/^\:/,'') + '"')} }
   | NIL

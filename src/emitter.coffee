@@ -24,8 +24,6 @@ class MinContext
     name = statement[0]
     args = rest(statement)
 
-    console.log 'args', args
-
     switch name
       when '+', '-', '*', '/'
         @generate(args).join(name)
