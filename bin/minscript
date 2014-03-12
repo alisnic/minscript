@@ -52,9 +52,6 @@ requireMS = (mod, source)->
 if require.extensions
   require.extensions[".ms"] = requireMS
 
-process.env['NODE_PATH'] = process.cwd()
-console.log process.env['NODE_PATH']
-
 repl = ->
   replEmitter = emitter.init()
 
