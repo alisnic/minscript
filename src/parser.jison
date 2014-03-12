@@ -51,18 +51,18 @@ sexp
     { $$ = $anonfn; }
   ;
 
-pairs
-  : pair
-    { $$ = [$pair]; }
-  | pair pairs
-    { $$ = [$pair].concat($pairs); }
-  ;
-
 anonfn
   : 'QUICKFN' '(' ')'
     { $$ = [] }
   | 'QUICKFN' '(' items ')'
     { $$ = ['fn', []].concat([$items]) }
+  ;
+
+pairs
+  : pair
+    { $$ = [$pair]; }
+  | pair pairs
+    { $$ = [$pair].concat($pairs); }
   ;
 
 pair
