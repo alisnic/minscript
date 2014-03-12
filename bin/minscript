@@ -3,13 +3,17 @@ vm       = require 'vm'
 fs       = require 'fs'
 util     = require 'util'
 readline = require 'readline'
+path     = require 'path'
+Module   = require 'module'
 
 parser  = require '../lib/parser'
 emitter = require '../lib/emitter'
 wrapper = require '../lib/wrapper'
+ctx     = vm.createContext()
 
-translate = (source)->
-  code = fs.readFileSync(source).toString()
+last = (ary)-> ary[ary.length-1]
+
+_compile = (code)->
   ast  = parser.parse(code)
 
   namespace = ast.filter((s)-> s[0] is 'ns')[0]
@@ -19,20 +23,37 @@ translate = (source)->
   gen = emitter.init("exports")
   wrapper.wrap namespace[1], gen.emit(cleanAst)
 
+translate = (source)->
+  code = fs.readFileSync(source).toString()
+  _compile(code)
+
 compile = (source)->
   js = translate(source)
   name = source.split('.')[0..-2].join(".")
   fs.writeFileSync("#{name}.js", js)
 
-requireMS = (source)->
-  #
+run = (ms)->
+  js = translate(ms)
+  console.log js
 
-ctx = vm.createContext()
-ctx['console'] = console
-ctx['require'] = requireMS
+  mainModule = require.main
+  mainModule.filename = process.argv[1] = '.'
+  mainModule.moduleCache and= {}
+  dir = fs.realpathSync '.'
 
-run = (js)->
-  vm.runInContext(translate(js), ctx)
+  mainModule.paths = require('module')._nodeModulePaths dir
+  mainModule._compile js, mainModule.filename
+
+requireMS = (mod, source)->
+  raw = fs.readFileSync source, 'utf8'
+  js  = _compile(raw)
+  mod._compile js, source
+
+if require.extensions
+  require.extensions[".ms"] = requireMS
+
+process.env['NODE_PATH'] = process.cwd()
+console.log process.env['NODE_PATH']
 
 repl = ->
   replEmitter = emitter.init()
