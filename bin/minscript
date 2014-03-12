@@ -1,5 +1,4 @@
 #!/usr/bin/env coffee
-
 vm       = require 'vm'
 fs       = require 'fs'
 util     = require 'util'
@@ -9,10 +8,7 @@ parser  = require '../lib/parser'
 emitter = require '../lib/emitter'
 wrapper = require '../lib/wrapper'
 
-ctx = vm.createContext()
-ctx['console'] = console;
-
-compile = (source)->
+translate = (source)->
   code = fs.readFileSync(source).toString()
   ast  = parser.parse(code)
 
@@ -21,11 +17,22 @@ compile = (source)->
 
   cleanAst = ast.filter (s)-> s[0] isnt 'ns'
   gen = emitter.init("exports")
-  js  = wrapper.wrap namespace[1], gen.emit(cleanAst)
+  wrapper.wrap namespace[1], gen.emit(cleanAst)
 
+compile = (source)->
+  js = translate(source)
   name = source.split('.')[0..-2].join(".")
   fs.writeFileSync("#{name}.js", js)
 
+requireMS = (source)->
+  #
+
+ctx = vm.createContext()
+ctx['console'] = console
+ctx['require'] = requireMS
+
+run = (js)->
+  vm.runInContext(translate(js), ctx)
 
 repl = ->
   replEmitter = emitter.init()
@@ -62,4 +69,7 @@ switch process.argv[2]
   when 'compile'
     compile(process.argv[3])
   else
-    repl()
+    if process.argv[2]
+      run(process.argv[2])
+    else
+      repl()

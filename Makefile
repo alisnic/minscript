@@ -1,4 +1,7 @@
-default: cli
+default: cli browser
+
+browser:
+	whoami
 
 cli: parser
 
