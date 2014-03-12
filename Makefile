@@ -6,4 +6,4 @@ browser:
 cli: parser
 
 parser:
-	jison lib/parser.jison
+	jison lib/parser.jison -o lib/parser.js

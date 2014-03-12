@@ -9,6 +9,7 @@
 
 
 \"(\\.|[^"])*\"  yytext = yytext.substr(1,yyleng-2); return 'STRING';
+\'(\\.|[^'])*\'  yytext = yytext.substr(1,yyleng-2); return 'sqSTRING';
 
 "-"?[0-9]+"."[0-9]+ { return 'FLOAT'; }
 "-"?[0-9]+          { return 'INT'; }
@@ -86,6 +87,8 @@ atom
     { $$ = {value: parseFloat($FLOAT)}; }
   | STRING
     { $$ = {value: ('"' + $STRING + '"')}; }
+  | sqSTRING
+    { $$ = {value: ("'" + $sqSTRING + "'")}; }
   | boolean
     { $$ = {value: $boolean}; }
   | SYMBOL
