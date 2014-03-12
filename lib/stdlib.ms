@@ -1,11 +1,13 @@
-(namespace :std)
+(ns :std)
 
-(defn map (ary, cb)
+(defn map (ary cb)
   (Array.prototype.map.call ary cb))
 
-(defn reduce (first ary cb)
+(defn reduce (ary cb first)
   (Array.prototype.reduce.call ary cb first))
 
 (defn str ()
-  (let strings (map arguments #(String %1))
-  (reduce '' strings #(+ %1 %2)))
+  (let strings (map arguments #(String %1)))
+  (reduce strings #(+ %1 %2) ''))
+
+(console.log (str 1 2 3))
