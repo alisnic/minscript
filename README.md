@@ -50,7 +50,7 @@ Hello World!
 (letfn foo (a b) (+ a b)) ;=> var foo = function (a,b) { return a+b; }
 
 ; Short function notation: (like in clojure)
-(let sum #(%0 %1)) ;=> var sum = function () { return arguments[0]+arguments[1]; }
+(let sum #(+ %0 %1)) ;=> var sum = function () { return arguments[0]+arguments[1]; }
 
 ; Getter function generator:
 (map squares &:width); => map(squares,function () { return arguments[0].width; })
@@ -61,7 +61,7 @@ Hello World!
 
 ## Objects
 ```clojure
-; to define a object, just use th ehash function
+; to define a object, just use the hash function
 (let obj (hash :foo "bar")) ;=> var obj = {foo: "bar"}
 
 ; getting attributes
@@ -78,7 +78,27 @@ Hello World!
 ```
 
 ## Arrays
+```clojure
+; to create an array, just use the array function
+(let ary (array 1 2 3)) ;=> var ary = [1,2,3]
+
+; since JavaScript is so awesome and everything it a object,
+; you can use the same get/set functions from object
+(let first (get ary 0)) ;=> var first = ary[0]
+(set ary 0 10) ;=> ary[0] = 10
+```
 
 ## Chaining
+```clojure
+; you can chain invokations using the -> operator
+(-> ($ :body)
+    (attr :cool :yes)
+    (css :color :black))
+; => $('body').attr('cool', 'yes').css('color', 'black')
+
+; alert the world about your awesomeness when you save a Backbone Model
+(-> (model.save)
+    (success #(alert 'the model has been saved')))
+```
 
 ## Namespace
