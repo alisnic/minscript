@@ -31,7 +31,7 @@ run = (ms)->
 
 requireMS = (mod, source)->
   raw = fs.readFileSync source, 'utf8'
-  mod._compile _compile(raw), source
+  mod._compile minscript.compile(raw), source
 
 if require.extensions
   require.extensions[".ms"] = requireMS
