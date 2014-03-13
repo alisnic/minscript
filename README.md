@@ -42,6 +42,24 @@ Hello World!
 ```
 
 ## Conditions
+```clojure
+; same if you know from many other lisps
+(if true (alert 'true!') (alert 'reality has failed'))
+;=> if (true) { alert('true!') } else { alert('reality has failed') }
+
+; and same cond you know too
+(cond
+    (= 1 1) (alert 'good news!')
+    (= 1 2) (alert 'bad news!')
+    :else (alert 'whatever'))
+;=> if (1===1) {
+;       alert('good news!')
+;   } else if (1===2) {
+;       alert('bad news!')
+;   } else if ("else") {
+;       alert('whatever')
+;   }
+```
 
 ## Loops
 
