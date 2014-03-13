@@ -15,4 +15,4 @@ min: minscript
 	rm build/minscript.min.temp
 
 parser:
-	jison src/parser.jison -o src/parser.js
+	./node_modules/.bin/jison src/parser.jison -o src/parser.js
