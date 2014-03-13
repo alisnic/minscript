@@ -1,6 +1,6 @@
-parser  = require '../src/parser'
-emitter = require '../src/emitter'
-wrapper = require '../src/wrapper'
+parser  = require './parser'
+emitter = require './emitter'
+wrapper = require './wrapper'
 
 module.exports =
   compile: (code)->
@@ -16,3 +16,6 @@ module.exports =
 
   generate: (ast, ctx="exports")->
     emitter.init(ctx).emit(ast)
+
+  eval: (code)->
+    eval @compile(code)
