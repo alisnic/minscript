@@ -6,7 +6,7 @@ readline = require 'readline'
 path     = require 'path'
 Module   = require 'module'
 
-minscript = require '../src/minscript'
+minscript = require '../build/minscript'
 
 translate = (source)->
   code = fs.readFileSync(source).toString()

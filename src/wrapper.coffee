@@ -6,5 +6,3 @@ wrap = (moduleName, js)->
 
   })(typeof exports === 'undefined' ? this[#{moduleName}]={} : exports);
   """
-
-exports.wrap = wrap

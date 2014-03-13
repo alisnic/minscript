@@ -1,21 +1,16 @@
-parser  = require './parser'
-emitter = require './emitter'
-wrapper = require './wrapper'
+exports.ast = (code)->
+  parser.parse(code)
 
-module.exports =
-  compile: (code)->
-    ast       = @ast(code)
-    namespace = ast.filter((s)-> s[0] is 'ns')[0]
-    throw "Missing namespace declaration" unless namespace
+exports.generate = (ast, ctx="exports")->
+  (new MinContext(ctx)).emit(ast)
 
-    cleanAst = ast.filter (s)-> s[0] isnt 'ns'
-    wrapper.wrap namespace[1].value, @generate(cleanAst)
+exports.compile = (code)->
+  ast       = exports.ast(code)
+  namespace = ast.filter((s)-> s[0] is 'ns')[0]
+  throw "Missing namespace declaration" unless namespace
 
-  ast: (code)->
-    parser.parse(code)
+  cleanAst = ast.filter (s)-> s[0] isnt 'ns'
+  wrap namespace[1].value, exports.generate(cleanAst)
 
-  generate: (ast, ctx="exports")->
-    emitter.init(ctx).emit(ast)
-
-  eval: (code)->
-    eval @compile(code)
+exports.eval = (code)->
+  eval exports.compile(code)

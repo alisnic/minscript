@@ -116,5 +116,3 @@ class MinContext
         "var #{normalized} = require(#{name})"
       else
         "#{name}(#{@generate(args).join(',')})"
-
-exports.init = (exportTarget='this')-> new MinContext(exportTarget)
