@@ -11,7 +11,7 @@ minscript: parser
 min: minscript
 	cat build/minscript.js > build/minscript.min.temp
 	cat src/domeval.js >> build/minscript.min.temp
-	uglifyjs build/minscript.min.temp >> build/minscript.min.js
+	uglifyjs build/minscript.min.temp > build/minscript.min.js
 	rm build/minscript.min.temp
 
 parser:

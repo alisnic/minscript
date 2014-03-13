@@ -109,9 +109,9 @@ class MinContext
         name = args[0].value
 
         normalized = if args[1]?.value is '"as"' and args[2]?.value
-          args[2].value.replace(/[\/\."]/g, '')
+          args[2].value.replace(/[\/\."']/g, '')
         else
-          name.replace(/[\/\."]/g, '')
+          name.replace(/[\/\."']/g, '')
 
         "var #{normalized} = require(#{name})"
       when 'use'
