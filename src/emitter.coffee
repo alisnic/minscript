@@ -85,6 +85,10 @@ class MinContext
         "#{bindings}; while (true) { #{@generate(rest(args)).join(';')} break; }"
       when 'new'
         "new #{args[0]}(#{@generate(rest(args)).join(',')})"
+      when '->'
+        target = @grow(args[0])
+        chain = @generate(rest(args)).join(".")
+        "#{target}.#{chain}"
       else
         "#{name}(#{@generate(args).join(',')})"
 

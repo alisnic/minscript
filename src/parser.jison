@@ -23,7 +23,7 @@ nil  { return 'NIL'; }
 true  { return 'TRUE'; }
 false  { return 'FALSE'; }
 
-[-+/*_<>=a-zA-Z.]+  { return 'SYMBOL'; }
+[-+/*_<>=a-zA-Z$.]+  { return 'SYMBOL'; }
 
 <<EOF>>    { return 'EOF'; }
 
@@ -104,7 +104,7 @@ atom
   | boolean
     { $$ = {value: $boolean}; }
   | SYMBOL
-    { $$ = yytext.replace(/-/g, '_'); }
+    { $$ = $SYMBOL; }
   | ARG
     { $$ = {value: ('arguments[' + yytext.replace(/^\%/,'') + ']')} }
   | KEYWORD
