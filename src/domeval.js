@@ -5,7 +5,6 @@
   });
 
   Array.prototype.forEach.call(scripts, function (s) {
-    console.log(s.textContent);
     MinScript.eval(s.textContent);
   });
 })();
