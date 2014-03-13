@@ -104,7 +104,7 @@ atom
   | boolean
     { $$ = {value: $boolean}; }
   | SYMBOL
-    { $$ = $SYMBOL; }
+    { $$ = yytext.replace(/-/g, '_'); }
   | ARG
     { $$ = {value: ('arguments[' + yytext.replace(/^\%/,'') + ']')} }
   | KEYWORD
