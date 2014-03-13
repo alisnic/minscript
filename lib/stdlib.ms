@@ -12,5 +12,8 @@
 (defn str ()
   (let strings (map arguments #(String %1)))
   (reduce strings #(+ %1 %2) ''))
+  
+(defn puts ()
+  (console.log (arguments.join ',')))
 
-(console.log (str 1 2 3))
+(puts (str 1 2 3))
