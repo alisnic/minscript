@@ -1,4 +1,5 @@
 (ns :std)
+(require :fs)
 
 (defn map (ary cb)
   (Array.prototype.map.call ary cb))
@@ -23,3 +24,4 @@
   (Array.prototype.forEach.call ary cb))
 
 (puts (str 1 2 3 :vasea))
+(puts (fs.readdirSync '.'))

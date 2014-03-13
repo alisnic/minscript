@@ -6,27 +6,14 @@ readline = require 'readline'
 path     = require 'path'
 Module   = require 'module'
 
-parser  = require '../src/parser'
-emitter = require '../src/emitter'
-wrapper = require '../src/wrapper'
-
-last = (ary)-> ary[ary.length-1]
-
-_compile = (code)->
-  ast  = parser.parse(code)
-
-  namespace = ast.filter((s)-> s[0] is 'ns')[0]
-  throw "Missing namespace declaration" unless namespace
-
-  cleanAst = ast.filter (s)-> s[0] isnt 'ns'
-  gen = emitter.init("exports")
-  wrapper.wrap namespace[1].value, gen.emit(cleanAst)
+emitter   = require '../src/emitter'
+minscript = require '../src/minscript'
 
 translate = (source)->
   code = fs.readFileSync(source).toString()
-  _compile(code)
+  minscript.compile(code)
 
-compile = (source)->
+compileFile = (source)->
   js = translate(source)
   name = source.split('.')[0..-2].join(".")
   fs.writeFileSync("#{name}.js", js)
@@ -72,9 +59,9 @@ repl = ->
     close_count = (buffer.match(/\)/g) or []).length
 
     if open_count is close_count
-      ast = parser.parse(buffer)
+      ast = minscript.ast(buffer)
       console.log ast
-      js = replEmitter.emit(ast)
+      js = minscript.generate(ast, "this")
       console.log js
       console.log "=>", vm.runInContext(js, ctx)
       buffer = ''
@@ -86,7 +73,7 @@ switch process.argv[2]
   when 'repl'
     repl()
   when 'compile'
-    compile(process.argv[3])
+    compileFile(process.argv[3])
   else
     if process.argv[2]
       run(process.argv[2])
