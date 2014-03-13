@@ -5,5 +5,10 @@
   "dependencies": {},
   "devDependencies": {
     "mocha": "1.17.x"
+  },
+
+  "scripts": {
+    "start": "./bin/minscript"
   }
+
 }
