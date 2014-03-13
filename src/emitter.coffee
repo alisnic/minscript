@@ -31,11 +31,14 @@ class MinContext
         @generate(args).join("===")
       when 'fn'
         statements = rest(args)
-        body = @generate(statements.slice(0, statements.length-1)).join(";")
-        body = "#{body};" unless body.length is 0
+        body = @generate(statements.slice(0, statements.length-1)).join(";\n")
+        body = "#{body};\n" unless body.length is 0
         rtn  = @grow(last(statements))
 
-        "function (#{args[0].join(',')}) { #{body}return #{rtn}; }"
+        """
+        function (#{args[0].join(',')}) {
+          #{body}return #{rtn};
+        }"""
       when 'let'
         slices = eachSlice args, 2, (slice)=>
           "#{@grow(slice[0])} = #{@grow(slice[1])}"
