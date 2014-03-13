@@ -7,10 +7,12 @@ exports.generate = (ast, ctx="exports")->
 exports.compile = (code)->
   ast       = exports.ast(code)
   namespace = ast.filter((s)-> s[0] is 'ns')[0]
-  throw "Missing namespace declaration" unless namespace
+  cleanAst  = ast.filter (s)-> s[0] isnt 'ns'
 
-  cleanAst = ast.filter (s)-> s[0] isnt 'ns'
-  wrap namespace[1].value, exports.generate(cleanAst)
+  if namespace
+    wrap namespace[1].value, exports.generate(cleanAst)
+  else
+    exports.generate(cleanAst)
 
 exports.eval = (code)->
   eval exports.compile(code)
