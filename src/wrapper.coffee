@@ -4,7 +4,7 @@ wrap = (moduleName, js)->
 
   #{js}
 
-  })(typeof exports === 'undefined' ? this['#{moduleName}']={} : exports);
+  })(typeof exports === 'undefined' ? this[#{moduleName}]={} : exports);
   """
 
 exports.wrap = wrap

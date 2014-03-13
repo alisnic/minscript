@@ -10,10 +10,13 @@
   (Array.prototype.filter.call ary cb))
 
 (defn str ()
-  (let strings (map arguments #(String %1)))
-  (reduce strings #(+ %1 %2) ''))
+  (let strings (map arguments #(String %0)))
+  (reduce strings #(+ %0 %1) ''))
+
+(defn join (ary char)
+  (Array.prototype.join.call ary char))
 
 (defn puts ()
-  (console.log (arguments.join ',')))
+  (console.log (join arguments ',')))
 
 (puts (str 1 2 3 :vasea))

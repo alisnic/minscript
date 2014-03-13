@@ -31,7 +31,7 @@ class MinContext
         @generate(args).join("===")
       when 'fn'
         statements = rest(args)
-        body = @generate(statements.slice(0, statements.length-2)).join(";")
+        body = @generate(statements.slice(0, statements.length-1)).join(";")
         body = "#{body};" unless body.length is 0
         rtn  = @grow(last(statements))
 

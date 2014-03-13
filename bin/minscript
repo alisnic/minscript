@@ -21,7 +21,7 @@ _compile = (code)->
 
   cleanAst = ast.filter (s)-> s[0] isnt 'ns'
   gen = emitter.init("exports")
-  wrapper.wrap namespace[1], gen.emit(cleanAst)
+  wrapper.wrap namespace[1].value, gen.emit(cleanAst)
 
 translate = (source)->
   code = fs.readFileSync(source).toString()
@@ -34,6 +34,7 @@ compile = (source)->
 
 run = (ms)->
   js = translate(ms)
+  console.log js
 
   mainModule = require.main
   mainModule.filename = process.argv[1] = '.'
