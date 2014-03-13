@@ -4,7 +4,8 @@
   "author": "Andrei Lisnic <andrei.lisnic@gmail.com>",
   "dependencies": {},
   "devDependencies": {
-    "mocha": "1.17.x"
+    "mocha": "1.17.x",
+    "jison": "0.4.x"
   },
 
   "scripts": {
