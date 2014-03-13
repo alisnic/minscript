@@ -6,7 +6,6 @@ readline = require 'readline'
 path     = require 'path'
 Module   = require 'module'
 
-emitter   = require '../src/emitter'
 minscript = require '../src/minscript'
 
 translate = (source)->
@@ -41,7 +40,6 @@ repl = ->
   ctx         = vm.createContext()
   ctx.console = console;
   ctx.require = require;
-  replEmitter = emitter.init()
 
   rl = readline.createInterface
     input: process.stdin
