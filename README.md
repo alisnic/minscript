@@ -41,6 +41,10 @@ Hello World!
 (let doom null) ;=> var doom = null
 ```
 
+## Conditions
+
+## Loops
+
 ## Functions
 ```clojure
 ; Anonymous function:
@@ -82,7 +86,7 @@ Hello World!
 ; to create an array, just use the array function
 (let ary (array 1 2 3)) ;=> var ary = [1,2,3]
 
-; since JavaScript is so awesome and everything it a object,
+; since JavaScript is so awesome and everything is a object,
 ; you can use the same get/set functions from object
 (let first (get ary 0)) ;=> var first = ary[0]
 (set ary 0 10) ;=> ary[0] = 10
@@ -99,6 +103,14 @@ Hello World!
 ; alert the world about your awesomeness when you save a Backbone Model
 (-> (model.save)
     (success #(alert 'the model has been saved')))
+;=> model.save().success(function () { return alert('the model has been saved'); })
+
+; some promises
+(-> (ajax.ready)
+    (then #(alert 'ready'))
+    (then #(alert 'ready again'))
+
+;=> ajax.ready().then(function () { return alert('ready'); }).then(function () { return alert('ready again'); })
 ```
 
 ## Namespace
