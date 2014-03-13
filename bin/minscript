@@ -9,7 +9,6 @@ Module   = require 'module'
 parser  = require '../src/parser'
 emitter = require '../src/emitter'
 wrapper = require '../src/wrapper'
-ctx     = vm.createContext()
 
 last = (ary)-> ary[ary.length-1]
 
@@ -52,6 +51,9 @@ if require.extensions
   require.extensions[".ms"] = requireMS
 
 repl = ->
+  ctx         = vm.createContext()
+  ctx.console = console;
+  ctx.require = require;
   replEmitter = emitter.init()
 
   rl = readline.createInterface

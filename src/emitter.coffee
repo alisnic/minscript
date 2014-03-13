@@ -56,9 +56,6 @@ class MinContext
         js = "if (#{cond}) { #{body} }"
         js += " else { #{elsebody} }" if elsebody.length
         js
-      when 'when'
-        cond = @grow(args[0])
-        "if (!#{cond}) { #{@generate(rest(args)).join(';')} }"
       when 'cond'
         slices = eachSlice args, 2, (slice)=>
           "(#{@grow(slice[0])}) { #{@grow(slice[1])} }"
@@ -78,11 +75,25 @@ class MinContext
       when 'array'
         "[#{@generate(args).join(',')}]"
       when 'recur'
-        rebind = @grow ['set', 'i', args[0]]
-        "continue;"
+        "__$loop_acc.push([#{@generate(args).join(',')}])"
       when 'loop'
-        bindings = @grow ['let'].concat(args[0])
-        "#{bindings}; while (true) { #{@generate(rest(args)).join(';')} break; }"
+        bind_names  = (v for v,i in args[0] when i % 2 is 0)
+        bind_values = (v for v,i in args[0] when i % 2 is 1)
+
+        shift = bind_names.map((n)-> "#{n} = __$loop_args.shift()").join(";\n")
+        vars  = bind_names.join(",")
+        vals  = @generate(bind_values).join(',')
+
+        """
+        var #{vars}, __$loop_args, __$loop_acc;
+        __$loop_acc = [[#{vals}]];
+
+        while (__$loop_acc.length) {
+          __$loop_args = __$loop_acc.shift();
+          #{shift};
+          #{@generate(rest(args)).join(';')}
+        }
+        """
       when 'new'
         "new #{args[0]}(#{@generate(rest(args)).join(',')})"
       when '->'
