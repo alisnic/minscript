@@ -22,51 +22,39 @@ Hello World!
 ```
 
 ## Data
-- Int
 ```clojure
+; Numbers
 (let foo 12) ;=> var foo = 12
-```
-- Float
-```clojure
 (let foo 1.12) ;=> var foo = 12
-```
-- Strings
-```clojure
+
+; Strings
 (let foo 'foo') ;=> var foo = 'foo'
 (let foo :foo)  ;=> var foo = 'foo'
 (let foo "foo") ;=> var foo = 'foo'
-```
-- Booleans
-```clojure
+
+; Booleans
 (let yes true) ;=> var yes = true
 (let no false) ;=> var no = false
-```
-- Null
-```clojure
+
+; Null
 (let doom nil) ;=> var doom = null
 (let doom null) ;=> var doom = null
 ```
 
 ## Functions
-There are several ways to define a function in MinScript:
-
-Anonymous function:
 ```clojure
+; Anonymous function:
 (fn (a b) (+ a b)) ;=> function (a,b) { return a+b; }
-```
-Function as a local variable:
-```clojure
+
+; Function as a local variable:
 (letfn foo (a b) (+ a b)) ;=> var foo = function (a,b) { return a+b; }
-```
-Short function notation: (like in clojure)
-```clojure
+
+; Short function notation: (like in clojure)
 (let sum #(%0 %1)) ;=> var sum = function () { return arguments[0]+arguments[1]; }
-```
-Getter function generator:
-```clojure
+
+; Getter function generator:
 (map squares &:width); => map(squares,function () { return arguments[0].width; })
-```
-Invocator function generator:
-```clojure
+
+; Invocator function generator:
 (map squares &&:area); => map(squares,function () { return arguments[0].area(); })
 ```
