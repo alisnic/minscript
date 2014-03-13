@@ -15,7 +15,8 @@
 "-"?[0-9]+          { return 'INT'; }
 ":"\w+              { return 'KEYWORD'; }
 "%"\d+              { return 'ARG' }
-
+"&:"\w+             { return 'ATTRFN' }
+"&&:"\w+            { return 'FUNFN' }
 "#"                 { return 'QUICKFN' }
 
 nil  { return 'NIL'; }
@@ -108,6 +109,10 @@ atom
     { $$ = {value: ('arguments[' + yytext.replace(/^\%/,'') + ']')} }
   | KEYWORD
     { $$ = {value: ('"' + yytext.replace(/^\:/,'') + '"')} }
+  | ATTRFN
+    { $$ = ['fn', [], {value: 'arguments[0].' + yytext.replace(/[\:\&]/g,'')}] }
+  | FUNFN
+    { $$ = ['fn', [], ['arguments[0].' + yytext.replace(/[\:\&]/g,'')]] }
   | NIL
     { $$ = {value: null, null: true}; }
   ;

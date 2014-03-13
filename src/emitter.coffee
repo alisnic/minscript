@@ -84,7 +84,6 @@ class MinContext
         bindings = @grow ['let'].concat(args[0])
         "#{bindings}; while (true) { #{@generate(rest(args)).join(';')} break; }"
       when 'new'
-
         "new #{args[0]}(#{@generate(rest(args)).join(',')})"
       else
         "#{name}(#{@generate(args).join(',')})"
