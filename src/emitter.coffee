@@ -114,5 +114,13 @@ class MinContext
           name.replace(/[\/\."]/g, '')
 
         "var #{normalized} = require(#{name})"
+      when 'use'
+        name = args[0].value.replace(/"/g, '')
+        """
+        (function (root) {
+          for (var key in #{name})
+            root[key] = #{name}[key]
+        })(typeof global == 'undefined' ? window : global);
+        """
       else
         "#{name}(#{@generate(args).join(',')})"

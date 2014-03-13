@@ -40,6 +40,7 @@ repl = ->
   ctx         = vm.createContext()
   ctx.console = console;
   ctx.require = require;
+  ctx.global  = global;
 
   rl = readline.createInterface
     input: process.stdin
