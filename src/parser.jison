@@ -108,7 +108,7 @@ atom
   | ARG
     { $$ = {value: ('arguments[' + yytext.replace(/^\%/,'') + ']')} }
   | KEYWORD
-    { $$ = {value: ('"' + yytext.replace(/^\:/,'') + '"')} }
+    { $$ = {value: yytext.replace(/^\:/,'')} }
   | ATTRFN
     { $$ = ['fn', [], {value: 'arguments[0].' + yytext.replace(/[\:\&]/g,'')}] }
   | FUNFN

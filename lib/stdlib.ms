@@ -19,4 +19,7 @@
 (defn puts ()
   (console.log (join arguments ',')))
 
+(defn each (ary cb)
+  (Array.prototype.forEach.call ary cb))
+
 (puts (str 1 2 3 :vasea))

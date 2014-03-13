@@ -89,6 +89,10 @@ class MinContext
         target = @grow(args[0])
         chain = @generate(rest(args)).join(".")
         "#{target}.#{chain}"
+      when 'require'
+        name = args[0].value
+        normalized = name.replace(/\/\."/g, '')
+        "var #{normalized} = require('#{name}')"
       else
         "#{name}(#{@generate(args).join(',')})"
 
