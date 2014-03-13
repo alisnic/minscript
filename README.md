@@ -62,3 +62,11 @@ Short function notation: (like in clojure)
 ```clojure
 (let sum #(%0 %1)) ;=> var sum = function () { return arguments[0]+arguments[1]; }
 ```
+Getter function generator:
+```clojure
+(map squares &:width); => map(squares,function () { return arguments[0].width; })
+```
+Invocator function generator:
+```clojure
+(map squares &&:area); => map(squares,function () { return arguments[0].area(); })
+```
