@@ -53,8 +53,8 @@ class MinContext
         body      = @grow(args[1])
         elsebody  = @grow(args[2])
 
-        js = "if (#{cond}) { #{body} }"
-        js += " else { #{elsebody} }" if elsebody.length
+        js = "if (#{cond}) {\n #{body} }"
+        js += " else {\n #{elsebody} }" if elsebody.length
         js
       when 'cond'
         slices = eachSlice args, 2, (slice)=>
@@ -85,14 +85,16 @@ class MinContext
         vals  = @generate(bind_values).join(',')
 
         """
-        var #{vars}, __$loop_args, __$loop_acc;
-        __$loop_acc = [[#{vals}]];
+        (function () {
+          var #{vars}, __$loop_args, __$loop_acc;
+          __$loop_acc = [[#{vals}]];
 
-        while (__$loop_acc.length) {
-          __$loop_args = __$loop_acc.shift();
-          #{shift};
-          #{@generate(rest(args)).join(';')}
-        }
+          while (__$loop_acc.length) {
+            __$loop_args = __$loop_acc.shift();
+            #{shift};
+            #{@generate(rest(args)).join(';')}
+          }
+        })();
         """
       when 'new'
         "new #{args[0]}(#{@generate(rest(args)).join(',')})"
