@@ -91,8 +91,13 @@ class MinContext
         "#{target}.#{chain}"
       when 'require'
         name = args[0].value
-        normalized = name.replace(/\/\."/g, '')
-        "var #{normalized} = require('#{name}')"
+
+        normalized = if args[1]?.value is '"as"' and args[2]?.value
+          args[2].value.replace(/[\/\."]/g, '')
+        else
+          name.replace(/[\/\."]/g, '')
+
+        "var #{normalized} = require(#{name})"
       else
         "#{name}(#{@generate(args).join(',')})"
 
