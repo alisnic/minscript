@@ -72,7 +72,7 @@ Hello World!
 ; var fac = function (x) {
 ;   return (function () {
 ;     var n,f, __$args, __$acc, __$ret;
-;     __$loop_acc = [[x,1]];
+;     __$acc = [[x,1]];
 ;
 ;     while (__$acc.length) {
 ;       __$args = __$acc.shift();
