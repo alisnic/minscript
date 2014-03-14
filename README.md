@@ -87,6 +87,21 @@ Hello World!
 
 (fac 10) ;=> 3628800
 ```
+## Try/Catch/Finally
+```clojure
+(try
+     (/ 5 0)
+     (catch ex (console.log ex))
+     (finally 0))
+
+; try {
+;   5/0
+; } catch (ex) {
+;    console.log(ex)
+; } finally {
+;  0
+; }
+```
 
 ## Functions
 ```clojure
