@@ -132,9 +132,26 @@ Hello World!
 ```
 
 ## Namespace
+MinScript has 2 ways of defining a variable: `let` and `def`. (letfn and defn as well). `def` is the same as `let`
+(it defines a local variable), except `def` will export that variable from module.
+```clojure
+(ns :answers)
+(let local true) ; is local
+(def ultimate 42) ; will be exported
+```
+This will generate the following JavaScript:
+```javascript
+(function(exports){
+
+var local = true;
+var ultimate = 42;
+exports.ultimate = ultimate;
+
+})(typeof exports === 'undefined' ? this["answers"]={} : exports);
+```
 
 ## Instanciating JS Objects
-```clujure
+```clojure
 (let now (new Date))        ;=> var now = new Date()
 (let ary (new Array 1 2 3)) ;=> var ary = new Array(1,2,3)
 ```
