@@ -19,7 +19,6 @@ compileFile = (source)->
 
 run = (ms)->
   js = translate(ms)
-  console.log js
 
   mainModule = require.main
   mainModule.filename = process.argv[1] = '.'

@@ -120,7 +120,7 @@ class MinContext
         (function (root) {
           for (var key in #{name})
             root[key] = #{name}[key]
-        })(typeof global == 'undefined' ? window : global);
+        })(typeof global === 'undefined' ? window : global);
         """
       else
         "#{name}(#{@generate(args).join(',')})"
