@@ -56,8 +56,12 @@ class MinContext
         body      = @grow(args[1])
         elsebody  = @grow(args[2])
 
-        js = "if (#{cond}) {\n #{body} }"
-        js += " else {\n #{elsebody} }" if elsebody.length
+        js = "(#{cond}) ? (#{body}) : "
+        if elsebody.length
+          js += "(#{elsebody})"
+        else
+          js += "null"
+
         js
       when 'cond'
         slices = eachSlice args, 2, (slice)=>
@@ -87,16 +91,23 @@ class MinContext
         vars  = bind_names.join(",")
         vals  = @generate(bind_values).join(',')
 
+        statements = rest(args)
+        body = @generate(statements.slice(0, statements.length-1)).join(";\n")
+        body = "#{body};\n" unless body.length is 0
+        rtn  = @grow(last(statements))
+
         """
         (function () {
-          var #{vars}, __$loop_args, __$loop_acc;
+          var #{vars}, __$loop_args, __$loop_acc, __$ret;
           __$loop_acc = [[#{vals}]];
 
           while (__$loop_acc.length) {
             __$loop_args = __$loop_acc.shift();
             #{shift};
-            #{@generate(rest(args)).join(';')}
+            #{body}__$ret = #{rtn};
           }
+
+          return __$ret;
         })();
         """
       when 'new'
