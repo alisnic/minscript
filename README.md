@@ -168,8 +168,9 @@ Hello World!
 ; you can chain invokations using the -> operator
 (-> ($ :body)
     (attr :cool :yes)
-    (css :color :black))
-; => $('body').attr('cool', 'yes').css('color', 'black')
+    (css :color :black)
+    (click #(alert :click))
+; => $('body').attr('cool', 'yes').css('color', 'black').click(function () { return alert('click'); })
 
 ; alert the world about your awesomeness when you save a Backbone Model
 (-> (model.save)
