@@ -62,6 +62,31 @@ Hello World!
 ```
 
 ## Loops
+```clojure
+(letfn fac (x)
+  (loop (n x f 1)
+    (if (= n 1)
+      f
+      (recur (- n 1) (* f n)))))
+
+; var fac = function (x) {
+;   return (function () {
+;     var n,f, __$args, __$acc, __$ret;
+;     __$acc = [[x,1]];
+;
+;     while (__$acc.length) {
+;       __$args = __$acc.shift();
+;       n = __$args.shift();
+;       f = __$args.shift();
+;       __$ret = (n===1) ? (f) : (__$acc.push([n-1,f*n]));
+;     }
+;
+;   return __$ret;
+;   })();
+; }
+
+(fac 10) ;=> 3628800
+```
 
 ## Functions
 ```clojure
