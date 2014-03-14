@@ -39,6 +39,32 @@ class MinContext
         function (#{args[0].join(',')}) {
           #{body}return #{rtn};
         }"""
+      when 'try'
+        catches = args.filter (a)->
+          a[0] is 'catch'
+        .map (c)=>
+          """
+          catch (#{@grow(c[1])}) {
+            #{@emit(c[2..-1])}
+          }"""
+        .join(" ")
+
+        finals = args.filter (a)->
+          a[0] is 'finally'
+        .map (c)=>
+          """
+          finally {
+            #{@emit(c[1..-1])}
+          }"""
+        .join(" ")
+
+        body = @emit(args.filter((a)-> a[0] isnt 'catch' and a[0] isnt 'finally'))
+
+        """
+        try {
+          #{body}
+        } #{catches} #{finals}
+        """
       when 'let'
         slices = eachSlice args, 2, (slice)=>
           "#{@grow(slice[0])} = #{@grow(slice[1])}"
@@ -82,12 +108,12 @@ class MinContext
       when 'array'
         "[#{@generate(args).join(',')}]"
       when 'recur'
-        "__$loop_acc.push([#{@generate(args).join(',')}])"
+        "__$acc.push([#{@generate(args).join(',')}])"
       when 'loop'
         bind_names  = (v for v,i in args[0] when i % 2 is 0)
         bind_values = (v for v,i in args[0] when i % 2 is 1)
 
-        shift = bind_names.map((n)-> "#{n} = __$loop_args.shift()").join(";\n")
+        shift = bind_names.map((n)-> "#{n} = __$args.shift()").join(";\n")
         vars  = bind_names.join(",")
         vals  = @generate(bind_values).join(',')
 
@@ -98,11 +124,11 @@ class MinContext
 
         """
         (function () {
-          var #{vars}, __$loop_args, __$loop_acc, __$ret;
-          __$loop_acc = [[#{vals}]];
+          var #{vars}, __$args, __$acc, __$ret;
+          __$acc = [[#{vals}]];
 
-          while (__$loop_acc.length) {
-            __$loop_args = __$loop_acc.shift();
+          while (__$acc.length) {
+            __$args = __$acc.shift();
             #{shift};
             #{body}__$ret = #{rtn};
           }
