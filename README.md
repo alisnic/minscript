@@ -132,3 +132,9 @@ Hello World!
 ```
 
 ## Namespace
+
+## Instanciating JS Objects
+```clujure
+(let now (new Date))        ;=> var now = new Date()
+(let ary (new Array 1 2 3)) ;=> var ary = new Array(1,2,3)
+```
