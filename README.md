@@ -14,6 +14,19 @@ $ minscript hello.ms
 Hello World!
 ```
 
+- [Language Reference](#language-reference)
+    - [Comments](#comments)
+    - [Data](#data)
+    - [Conditions](#conditions)
+    - [Loops](#loops)
+    - [Try/Catch/Finally](#trycatchfinally)
+    - [Functions](#functions)
+    - [Objects](#objects)
+    - [Arrays](#arrays)
+    - [Chaining](#chaining)
+    - [Namespace](#namespace)
+    - [Instanciating JS objects](#instanciating-js-objects)
+
 # Language Reference
 ## Comments
 ```clojure
