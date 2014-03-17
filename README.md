@@ -31,7 +31,16 @@ Hello World!
     - [Instanciating JS objects](#instanciating-js-objects)
 
 # Features
-
+## Multiline strings
+In MinScript the double quoted strings can bu multilined:
+```clojure
+(let s "I am
+  traveling
+  down
+  the
+  river")
+; var s = "I am\n"+"traveling\n"+"down\n"+"the\n"+"river"
+```
 
 # Language Reference
 ## Comments
