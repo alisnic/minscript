@@ -29,6 +29,20 @@ class MinContext
         @generate(args).join(name)
       when '='
         @generate(args).join("===")
+      when 'bit_and'
+        @generate(args).join("&")
+      when 'bit_or'
+        @generate(args).join("|")
+      when 'bit_xor'
+        @generate(args).join("^")
+      when 'bit_not'
+        "^#{grow(args[0])}"
+      when 'bit_shift_left'
+        @generate(args).join("<<")
+      when 'bit_shift_right'
+        @generate(args).join(">>")
+      when 'bit_shit_zero_right'
+        @generate(args).join(">>>")
       when 'fn'
         statements = rest(args)
         body = @generate(statements.slice(0, statements.length-1)).join(";\n")
