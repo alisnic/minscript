@@ -14,6 +14,9 @@ $ minscript hello.ms
 Hello World!
 ```
 
+
+- [Features](#features)
+    - [Multiline strings](#multiline-strings)
 - [Language Reference](#language-reference)
     - [Comments](#comments)
     - [Data](#data)
@@ -26,6 +29,9 @@ Hello World!
     - [Chaining](#chaining)
     - [Namespace](#namespace)
     - [Instanciating JS objects](#instanciating-js-objects)
+
+# Features
+
 
 # Language Reference
 ## Comments
