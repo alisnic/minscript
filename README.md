@@ -14,6 +14,19 @@ $ minscript hello.ms
 Hello World!
 ```
 
+- [Language Reference](#language-reference)
+    - [Comments](#comments)
+    - [Data](#data)
+    - [Conditions](#conditions)
+    - [Loops](#loops)
+    - [Try/Catch/Finally](#trycatchfinally)
+    - [Functions](#functions)
+    - [Objects](#objects)
+    - [Arrays](#arrays)
+    - [Chaining](#chaining)
+    - [Namespace](#namespace)
+    - [Instanciating JS objects](#instanciating-js-objects)
+
 # Language Reference
 ## Comments
 ```clojure
@@ -87,6 +100,21 @@ Hello World!
 
 (fac 10) ;=> 3628800
 ```
+## Try/Catch/Finally
+```clojure
+(try
+     (/ 5 0)
+     (catch ex (console.log ex))
+     (finally 0))
+
+; try {
+;   5/0
+; } catch (ex) {
+;    console.log(ex)
+; } finally {
+;  0
+; }
+```
 
 ## Functions
 ```clojure
@@ -140,8 +168,9 @@ Hello World!
 ; you can chain invokations using the -> operator
 (-> ($ :body)
     (attr :cool :yes)
-    (css :color :black))
-; => $('body').attr('cool', 'yes').css('color', 'black')
+    (css :color :black)
+    (click #(alert :click))
+; => $('body').attr('cool', 'yes').css('color', 'black').click(function () { return alert('click'); })
 
 ; alert the world about your awesomeness when you save a Backbone Model
 (-> (model.save)
