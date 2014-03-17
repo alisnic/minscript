@@ -98,7 +98,7 @@ atom
   | FLOAT
     { $$ = {value: parseFloat($FLOAT)}; }
   | STRING
-    { $$ = {value: ('"' + $STRING + '"')}; }
+    { $$ = {value: ('"' + $STRING.replace("\n", '\\n"+"') + '"')}; }
   | sqSTRING
     { $$ = {value: ("'" + $sqSTRING + "'")}; }
   | boolean
