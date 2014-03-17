@@ -23,7 +23,7 @@ nil  { return 'NIL'; }
 true  { return 'TRUE'; }
 false  { return 'FALSE'; }
 
-[-+/*_<>=a-zA-Z$.]+  { return 'SYMBOL'; }
+[-+/*_<>=a-zA-Z$.]+\d*  { return 'SYMBOL'; }
 
 <<EOF>>    { return 'EOF'; }
 
